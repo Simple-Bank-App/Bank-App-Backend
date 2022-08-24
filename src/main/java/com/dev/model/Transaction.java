@@ -14,5 +14,7 @@ public class Transaction {
 	String deposit;
 	String withdraw;
 	AccountType accountType;
+	int timeFrame;
+	double interest;
 
 }

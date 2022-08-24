@@ -57,6 +57,8 @@ public class TransactionService {
 			checking.setFirstName(user.get().getFirstName());
 			checking.setLastName(user.get().getLastName());
 			checking.setFundsAvailable(Double.parseDouble(transaction.getDeposit()));
+			
+			checkingRepo.save(checking);
 
 			
 		}else if(transaction.getAccountType().toString().equals("SAVING")) {
@@ -83,6 +85,8 @@ public class TransactionService {
 			savings.setLastName(user.get().getLastName());
 			savings.setFundsAvailable(Double.parseDouble(transaction.getDeposit()));
 			
+			savingsRepo.save(savings);
+			
 		}else if(transaction.getAccountType().toString().equals("CERTIFICATEOFDEPOSIT")) {
 			
 			//Account to be saved
@@ -106,9 +110,11 @@ public class TransactionService {
 			cd.setFirstName(user.get().getFirstName());
 			cd.setLastName(user.get().getLastName());
 			cd.setInitialDeposit(Double.parseDouble(transaction.getDeposit()));
-			cd.setCurrentBalance(Double.parseDouble(transaction.getDeposit()));
+			cd.setCurrentBalance(Double.parseDouble(transaction.getDeposit()));			
+			cd.setInterest(transaction.getInterest());
+			cd.setTimeFrame(transaction.getTimeFrame());
 			
-			//Figure out how to set the timeFrame and interest.
+			
 		}
 	}
 	
