@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dev.model.Login;
+import com.dev.model.LoginCredentials;
 import com.dev.model.User;
 import com.dev.model.UserAddress;
 import com.dev.model.UserEmployment;
@@ -23,7 +23,7 @@ public class authentication {
 	AuthenticationService authenticationService;
 	
 	@PostMapping("/login")
-	public boolean login(@RequestBody Login login) {
+	public boolean login(@RequestBody LoginCredentials login) {
 		return authenticationService.loginService(login);
 	}
 	

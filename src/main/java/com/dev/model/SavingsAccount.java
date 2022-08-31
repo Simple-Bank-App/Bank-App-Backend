@@ -36,6 +36,6 @@ public class SavingsAccount {
 	double fundsAvailable;
 	
 	@Column(name="account_number")
-	int accountNumber;
+	String accountNumber;
 
 }

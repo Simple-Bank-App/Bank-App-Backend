@@ -44,6 +44,6 @@ public class CertificateOfDeposit {
 	double currentBalance;
 	
 	@Column(name="account_number")
-	int accountNumber;
+	String accountNumber;
 
 }

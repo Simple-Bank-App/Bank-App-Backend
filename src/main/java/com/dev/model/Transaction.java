@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Transaction {
 	
-	int id;
-	int userId;
-	String deposit;
-	String withdraw;
-	AccountType accountType;
-	int timeFrame;
-	double interest;
+	private int userId;
+	private String deposit;
+	private String withdraw;
+	private String timeFrame;
+	private String interest;
+	private boolean checking;
+	private boolean savings;
+	private boolean certificateOfDeposit;
 
 }

@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.dev.data.BasicInfoRepository;
 import com.dev.data.CertificateOfDepositRepository;
@@ -15,6 +16,7 @@ import com.dev.model.SavingsAccount;
 import com.dev.model.Transaction;
 import com.dev.model.User;
 
+@Service
 public class TransactionService {
 	
 	@Autowired
@@ -34,7 +36,7 @@ public class TransactionService {
 		//Get the first and last name based on the userId.
 		Optional<User> user = basicInfoRepo.findById(transaction.getUserId());	
 		
-		if(transaction.getAccountType().toString().equals("CHECKING")) {
+		if(transaction.isChecking() == true) {
 			
 			//Account to be saved.
 			CheckingAccount checking = new CheckingAccount();
@@ -44,16 +46,17 @@ public class TransactionService {
 			
 			do {
 				
-				int randomInt = generateRandomNumber();
+				long randomInt = generateRandomNumber();
 								
-				existingChecking = checkingRepo.findByAccountNumber(Integer.toString(randomInt));
+				existingChecking = checkingRepo.findByAccountNumber(Long.toString(randomInt));
 				
 				if(existingChecking == null) {
-					checking.setAccountNumber(randomInt);
+					checking.setAccountNumber(Long.toString(randomInt));
 				}
 				
 			}while(existingChecking != null);
 			
+			checking.setUserId(transaction.getUserId());
 			checking.setFirstName(user.get().getFirstName());
 			checking.setLastName(user.get().getLastName());
 			checking.setFundsAvailable(Double.parseDouble(transaction.getDeposit()));
@@ -61,7 +64,7 @@ public class TransactionService {
 			checkingRepo.save(checking);
 
 			
-		}else if(transaction.getAccountType().toString().equals("SAVING")) {
+		}else if(transaction.isSavings() == true) {
 			
 			//Account to be saved.
 			SavingsAccount savings = new SavingsAccount();
@@ -71,23 +74,23 @@ public class TransactionService {
 			
 			do {
 				
-				int randomInt = generateRandomNumber();
+				long randomInt = generateRandomNumber();
 								
-				existingSavings = savingsRepo.findByAccountNumber(Integer.toString(randomInt));
+				existingSavings = savingsRepo.findByAccountNumber(Long.toString(randomInt));
 				
 				if(existingSavings == null) {
-					savings.setAccountNumber(randomInt);
+					savings.setAccountNumber(Long.toString(randomInt));
 				}
 				
 			}while(existingSavings != null);
-			
+			savings.setUserId(transaction.getUserId());
 			savings.setFirstName(user.get().getFirstName());
 			savings.setLastName(user.get().getLastName());
 			savings.setFundsAvailable(Double.parseDouble(transaction.getDeposit()));
 			
 			savingsRepo.save(savings);
 			
-		}else if(transaction.getAccountType().toString().equals("CERTIFICATEOFDEPOSIT")) {
+		}else if(transaction.isCertificateOfDeposit() == true) {
 			
 			//Account to be saved
 			CertificateOfDeposit cd = new CertificateOfDeposit();
@@ -97,37 +100,38 @@ public class TransactionService {
 			
 			do {
 				
-				int randomInt = generateRandomNumber();
+				long randomInt = generateRandomNumber();
 								
-				existingCD = certificateOfDepRepo.findByAccountNumber(Integer.toString(randomInt));
+				existingCD = certificateOfDepRepo.findByAccountNumber(Long.toString(randomInt));
 				
 				if(existingCD == null) {
-					cd.setAccountNumber(randomInt);
+					cd.setAccountNumber(Long.toString(randomInt));
 				}
 				
 			}while(existingCD != null);
 			
+			cd.setUserId(transaction.getUserId());
 			cd.setFirstName(user.get().getFirstName());
 			cd.setLastName(user.get().getLastName());
 			cd.setInitialDeposit(Double.parseDouble(transaction.getDeposit()));
 			cd.setCurrentBalance(Double.parseDouble(transaction.getDeposit()));			
-			cd.setInterest(transaction.getInterest());
-			cd.setTimeFrame(transaction.getTimeFrame());
+			cd.setInterest(Double.parseDouble(transaction.getDeposit()));
+			cd.setTimeFrame(Integer.parseInt(transaction.getDeposit()));
 			
 			
 		}
 	}
 	
-	public int generateRandomNumber() {
+	public long generateRandomNumber() {
 		
 		int min = 0;
-		int max = 99999999;
+		long max = 99999999;
 		
 		//1. Generate a random number.
 		Random random = new Random();
 		random.nextInt(100000000);
 		
-		int randomInt = (int)Math.floor(Math.random()*(max-min+1)+min);
+		long randomInt = (long)Math.floor(Math.random()*(max-min+1)+min);
 		
 		return randomInt;
 	}

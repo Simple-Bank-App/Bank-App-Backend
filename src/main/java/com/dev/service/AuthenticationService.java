@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.dev.data.AddressRepository;
 import com.dev.data.BasicInfoRepository;
 import com.dev.data.EmploymentRepository;
-import com.dev.model.Login;
+import com.dev.model.LoginCredentials;
 import com.dev.model.User;
 import com.dev.model.UserAddress;
 import com.dev.model.UserEmployment;
@@ -24,9 +24,11 @@ public class AuthenticationService {
 	EmploymentRepository employmentRepository;
 		
 	
-	public boolean loginService(Login login) {
+	public boolean loginService(LoginCredentials login) {
 		
 		boolean validUser = false;
+		
+		System.out.println("Username: " + login.toString());
 		
 		User foundUser = basicInfoRepository.findByUsername(login.getUsername());
 		if(login.getPassword().equals(foundUser.getPassword())){
