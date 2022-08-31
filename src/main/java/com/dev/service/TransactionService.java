@@ -118,6 +118,7 @@ public class TransactionService {
 			cd.setInterest(Double.parseDouble(transaction.getDeposit()));
 			cd.setTimeFrame(Integer.parseInt(transaction.getDeposit()));
 			
+			certificateOfDepRepo.save(cd);
 			
 		}
 	}
