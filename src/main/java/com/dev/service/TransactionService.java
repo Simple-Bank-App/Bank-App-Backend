@@ -1,5 +1,6 @@
 package com.dev.service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
@@ -36,7 +37,7 @@ public class TransactionService {
 		//Get the first and last name based on the userId.
 		Optional<User> user = basicInfoRepo.findById(transaction.getUserId());	
 		
-		if(transaction.isChecking() == true) {
+		if(transaction.getAccountType().equals("Checking")) {
 			
 			//Account to be saved.
 			CheckingAccount checking = new CheckingAccount();
@@ -64,7 +65,7 @@ public class TransactionService {
 			checkingRepo.save(checking);
 
 			
-		}else if(transaction.isSavings() == true) {
+		}else if(transaction.getAccountType().equals("Savings")) {
 			
 			//Account to be saved.
 			SavingsAccount savings = new SavingsAccount();
@@ -90,7 +91,7 @@ public class TransactionService {
 			
 			savingsRepo.save(savings);
 			
-		}else if(transaction.isCertificateOfDeposit() == true) {
+		}else if(transaction.getAccountType().equals("Certificate of Deposit")) {
 			
 			//Account to be saved
 			CertificateOfDeposit cd = new CertificateOfDeposit();
@@ -135,6 +136,149 @@ public class TransactionService {
 		long randomInt = (long)Math.floor(Math.random()*(max-min+1)+min);
 		
 		return randomInt;
+	}
+
+	public boolean withdrawFunds(Transaction transaction) {
+		
+		boolean withdrawComplete = false;
+		
+		if(transaction.getAccountType().equals("Checking")) {
+			
+			Optional<CheckingAccount> account = checkingRepo.findByUserId(transaction.getUserId());
+			
+			CheckingAccount checkingAccount = account.get();
+			
+			double fundsAvailable = checkingAccount.getFundsAvailable();
+			
+			if(Double.parseDouble(transaction.getAmount()) < fundsAvailable) {
+				
+				fundsAvailable -= Double.parseDouble(transaction.getAmount());
+				
+				checkingAccount.setFundsAvailable(fundsAvailable);
+				
+				checkingRepo.save(checkingAccount);
+
+				withdrawComplete = true;
+				
+			}else {
+				
+				//Insufficient funds.
+				withdrawComplete = false;
+				
+			}
+			
+			
+			
+		}else if(transaction.getAccountType().equals("Savings")) {
+			
+			Optional<SavingsAccount> account = savingsRepo.findByUserId(transaction.getUserId());
+			
+			SavingsAccount savingsAccount = account.get();
+			
+			double fundsAvailable = savingsAccount.getFundsAvailable();
+			
+			if(Double.parseDouble(transaction.getAmount()) < fundsAvailable) {
+				
+				fundsAvailable -= Double.parseDouble(transaction.getAmount());
+				
+				savingsAccount.setFundsAvailable(fundsAvailable);
+				
+				savingsRepo.save(savingsAccount);
+
+				withdrawComplete = true;
+				
+			}else {
+				
+				//Insufficient funds.
+				withdrawComplete = false;
+				
+			}
+
+			
+		}
+		
+		return withdrawComplete;
+		
+	}
+
+	public boolean depositFunds(Transaction transaction) {
+		
+		boolean depositComplete = false;
+		
+		if(transaction.getAccountType().equals("Checking")) {
+			
+			Optional<CheckingAccount> account = checkingRepo.findByUserId(transaction.getUserId());
+			
+			CheckingAccount checkingAccount = account.get();
+						
+			System.out.println(checkingAccount);
+			
+			double fundsAvailable = checkingAccount.getFundsAvailable();
+							
+			fundsAvailable += Double.parseDouble(transaction.getAmount());
+				
+			checkingAccount.setFundsAvailable(fundsAvailable);
+				
+			checkingRepo.save(checkingAccount);
+
+			depositComplete = true;
+										
+			
+		}else if(transaction.getAccountType().equals("Savings")) {
+			
+			Optional<SavingsAccount> account = savingsRepo.findByUserId(transaction.getUserId());
+			
+			SavingsAccount savingsAccount = account.get();
+			
+			double fundsAvailable = savingsAccount.getFundsAvailable();
+			
+			if(Double.parseDouble(transaction.getAmount()) < fundsAvailable) {
+				
+				fundsAvailable += Double.parseDouble(transaction.getAmount());
+				
+				savingsAccount.setFundsAvailable(fundsAvailable);
+				
+				savingsRepo.save(savingsAccount);
+
+				depositComplete = true;
+				
+			}else {
+				
+				//Insufficient funds.
+				depositComplete = false;
+				
+			}
+
+			
+		}else if(transaction.getAccountType().equals("Certificate of Deposit")) {
+			
+			Optional<CertificateOfDeposit> account = certificateOfDepRepo.findByUserId(transaction.getUserId());
+			
+			CertificateOfDeposit cd = account.get();
+			
+			double fundsAvailable = cd.getCurrentBalance();
+			
+			if(Double.parseDouble(transaction.getAmount()) < fundsAvailable) {
+				
+				fundsAvailable += Double.parseDouble(transaction.getAmount());
+				
+				cd.setCurrentBalance(fundsAvailable);
+				
+				certificateOfDepRepo.save(cd);
+
+				depositComplete = true;
+				
+			}else {
+				
+				//Insufficient funds.
+				depositComplete = false;
+				
+			}
+
+		}
+		
+		return depositComplete;
+		
 	}
 
 }

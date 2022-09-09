@@ -12,10 +12,9 @@ public class Transaction {
 	private int userId;
 	private String deposit;
 	private String withdraw;
+	private String amount;
 	private String timeFrame;
 	private String interest;
-	private boolean checking;
-	private boolean savings;
-	private boolean certificateOfDeposit;
-
+	private String accountType;
+	private String accountNumber;
 }

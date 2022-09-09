@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CertificateOfDeposit {
+	
+	@JsonInclude()
+	@Transient
+	private final String accountType = "Certificate of Deposit"; 
 	
 	@Id
 	@Column(name="account_id")
@@ -45,5 +52,6 @@ public class CertificateOfDeposit {
 	
 	@Column(name="account_number")
 	String accountNumber;
+	
 
 }

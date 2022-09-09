@@ -1,5 +1,6 @@
 package com.dev.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dev.model.Transaction;
+import com.dev.model.Transfer;
 import com.dev.service.TransactionService;
 
 @RestController
@@ -24,13 +26,22 @@ public class transactions {
 	}
 	
 	@PostMapping("/deposit")
-	public void deposit() {
-		
+	public Boolean deposit(@RequestBody Transaction transaction) {
+		return transactionService.depositFunds(transaction);
 	}
 	
 	@PostMapping("/withdraw")
-	public void withdraw() {
-		
+	public Boolean withdraw(@RequestBody Transaction transaction) {
+		return transactionService.withdrawFunds(transaction);
 	}
+	
+	@PostMapping("/transfer")
+	public void transfer(@RequestBody Transfer transfer) {
+		
+		//Withdraw
+		
+		//Then deposit
+	}
+	
 
 }
