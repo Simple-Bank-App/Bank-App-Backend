@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 public class Transaction {
 	
 	private int userId;
-	private String deposit;
-	private String withdraw;
+	private boolean deposit;
+	private boolean withdraw;
 	private String amount;
 	private String timeFrame;
 	private String interest;

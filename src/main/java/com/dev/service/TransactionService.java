@@ -37,6 +37,8 @@ public class TransactionService {
 		//Get the first and last name based on the userId.
 		Optional<User> user = basicInfoRepo.findById(transaction.getUserId());	
 		
+		System.out.print(transaction);
+		
 		if(transaction.getAccountType().equals("Checking")) {
 			
 			//Account to be saved.
@@ -60,7 +62,7 @@ public class TransactionService {
 			checking.setUserId(transaction.getUserId());
 			checking.setFirstName(user.get().getFirstName());
 			checking.setLastName(user.get().getLastName());
-			checking.setFundsAvailable(Double.parseDouble(transaction.getDeposit()));
+			checking.setFundsAvailable(Double.parseDouble(transaction.getAmount()));
 			
 			checkingRepo.save(checking);
 
@@ -87,7 +89,7 @@ public class TransactionService {
 			savings.setUserId(transaction.getUserId());
 			savings.setFirstName(user.get().getFirstName());
 			savings.setLastName(user.get().getLastName());
-			savings.setFundsAvailable(Double.parseDouble(transaction.getDeposit()));
+			savings.setFundsAvailable(Double.parseDouble(transaction.getAmount()));
 			
 			savingsRepo.save(savings);
 			
@@ -114,10 +116,10 @@ public class TransactionService {
 			cd.setUserId(transaction.getUserId());
 			cd.setFirstName(user.get().getFirstName());
 			cd.setLastName(user.get().getLastName());
-			cd.setInitialDeposit(Double.parseDouble(transaction.getDeposit()));
-			cd.setCurrentBalance(Double.parseDouble(transaction.getDeposit()));			
-			cd.setInterest(Double.parseDouble(transaction.getDeposit()));
-			cd.setTimeFrame(Integer.parseInt(transaction.getDeposit()));
+			cd.setInitialDeposit(Double.parseDouble(transaction.getAmount()));
+			cd.setCurrentBalance(Double.parseDouble(transaction.getAmount()));			
+			cd.setInterest(Double.parseDouble(transaction.getAmount()));
+			cd.setTimeFrame(Integer.parseInt(transaction.getAmount()));
 			
 			certificateOfDepRepo.save(cd);
 			
