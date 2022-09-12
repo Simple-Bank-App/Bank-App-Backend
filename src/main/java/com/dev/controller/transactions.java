@@ -2,6 +2,8 @@ package com.dev.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,12 +38,9 @@ public class transactions {
 	}
 	
 	@PostMapping("/transfer")
-	public String transfer(@RequestBody Transfer transfer) {
-		
-		System.out.println(transfer);
+	public Boolean transfer(@RequestBody Transfer transfer) throws JSONException {
 		
 		Transaction transaction = new Transaction();
-		String transferMessage = null;
 		
 		transaction.setUserId(transfer.getUserId());
 		transaction.setAmount(transfer.getAmount());
@@ -52,22 +51,16 @@ public class transactions {
 		//Withdraw
 		boolean withdrawSuccess = withdraw(transaction);
 		
-		if(!withdrawSuccess) {
-			transferMessage = "Incuficient funds, Please select another anount to transfer.";
-		}
-		
 		transaction.setAccountType(transfer.getAccountTo());
 		transaction.setWithdraw(false);
 		transaction.setDeposit(true);
 		
 		//Then deposit
 		boolean depositSuccess = deposit(transaction);
+	
 		
-		if(withdrawSuccess == true && depositSuccess == true) {
-			transferMessage = "Succesful transfer.";
-		}
 		
-		return transferMessage;
+		return withdrawSuccess;
 		
 	}
 	
