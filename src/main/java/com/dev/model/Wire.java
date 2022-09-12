@@ -7,10 +7,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transfer {
-
+public class Wire {
+	
 	private int userId;
-	private String accountFrom;
-	private String accountTo;
+	private String internalAccountNumber;
+	private String bankName;
+	private String bankAddress;
+	private String externalAccountNumber;
+	private String routingNumber;
 	private String amount;
+
 }

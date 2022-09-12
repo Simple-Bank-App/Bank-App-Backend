@@ -36,11 +36,39 @@ public class transactions {
 	}
 	
 	@PostMapping("/transfer")
-	public void transfer(@RequestBody Transfer transfer) {
+	public String transfer(@RequestBody Transfer transfer) {
+		
+		System.out.println(transfer);
+		
+		Transaction transaction = new Transaction();
+		String transferMessage = null;
+		
+		transaction.setUserId(transfer.getUserId());
+		transaction.setAmount(transfer.getAmount());
+		transaction.setAccountType(transfer.getAccountFrom());
+		transaction.setWithdraw(true);
+		transaction.setDeposit(false);
 		
 		//Withdraw
+		boolean withdrawSuccess = withdraw(transaction);
+		
+		if(!withdrawSuccess) {
+			transferMessage = "Incuficient funds, Please select another anount to transfer.";
+		}
+		
+		transaction.setAccountType(transfer.getAccountTo());
+		transaction.setWithdraw(false);
+		transaction.setDeposit(true);
 		
 		//Then deposit
+		boolean depositSuccess = deposit(transaction);
+		
+		if(withdrawSuccess == true && depositSuccess == true) {
+			transferMessage = "Succesful transfer.";
+		}
+		
+		return transferMessage;
+		
 	}
 	
 
