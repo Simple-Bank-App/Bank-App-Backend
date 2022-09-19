@@ -57,8 +57,6 @@ public class transactions {
 		
 		//Then deposit
 		boolean depositSuccess = deposit(transaction);
-	
-		
 		
 		return withdrawSuccess;
 		

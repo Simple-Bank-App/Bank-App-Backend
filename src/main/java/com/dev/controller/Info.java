@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dev.model.CertificateOfDeposit;
 import com.dev.model.CheckingAccount;
 import com.dev.model.SavingsAccount;
+import com.dev.model.User;
 import com.dev.service.InfoService;
 
 @RestController
@@ -49,10 +50,13 @@ public class Info {
 			System.out.println(e);
 		}
 		
-		
-		
 		return accounts;
 
+	}
+	
+	@GetMapping("/users/{id}")
+	public User getUser(@PathVariable int id) {
+		return infoService.getUser(id).get();
 	}
 
 }

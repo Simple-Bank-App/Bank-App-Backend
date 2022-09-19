@@ -8,12 +8,17 @@ import org.springframework.stereotype.Service;
 import com.dev.data.CertificateOfDepositRepository;
 import com.dev.data.CheckingAccountRepository;
 import com.dev.data.SavingsAccountRepository;
+import com.dev.data.UserRepository;
 import com.dev.model.CertificateOfDeposit;
 import com.dev.model.CheckingAccount;
 import com.dev.model.SavingsAccount;
+import com.dev.model.User;
 
 @Service
 public class InfoService {
+	
+	@Autowired
+	UserRepository userRepo;
 	
 	@Autowired
 	CheckingAccountRepository checkingRepo;
@@ -23,6 +28,7 @@ public class InfoService {
 	
 	@Autowired
 	CertificateOfDepositRepository certificateOfDepRepo;
+	
 
 	public Optional<CheckingAccount> getCheckingAccounts(int id) {
 		
@@ -49,6 +55,11 @@ public class InfoService {
 		cd = certificateOfDepRepo.findByUserId(id);
 		
 		return cd;
+	}
+
+	public Optional<User> getUser(int id) {
+		
+		return userRepo.findById(id);
 	}
 
 }
