@@ -80,4 +80,25 @@ public class SettingsService {
 		return passwordChanged;
 	}
 
+	public boolean changePhoneNumber(User user) {
+		
+		boolean numberChanged = false;
+		
+		User foundUser = infoService.getUser(user.getId()).get();
+		
+		String oldNumber = foundUser.getPhoneNumber();
+		
+		foundUser.setPhoneNumber(user.getPhoneNumber());
+		
+		String newNumber = foundUser.getPhoneNumber();
+		
+		if(!oldNumber.equals(newNumber)) {
+			numberChanged = true;
+			userRepo.save(foundUser);
+		}
+		
+		return numberChanged;
+		
+	}
+
 }

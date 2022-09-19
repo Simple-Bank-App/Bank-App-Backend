@@ -42,5 +42,10 @@ public class Settings {
 	public boolean changeUsername(@RequestBody User user) {
 		return settingsService.changeUsername(user);
 	}
+	
+	@PostMapping("/change-phone-number")
+	public boolean changePhoneNumber(@RequestBody User user) {
+		return settingsService.changePhoneNumber(user);
+	}
 
 }

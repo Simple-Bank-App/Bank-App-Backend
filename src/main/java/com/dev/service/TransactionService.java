@@ -93,7 +93,9 @@ public class TransactionService {
 			
 			savingsRepo.save(savings);
 			
-		}else if(transaction.getAccountType().equals("Certificate of Deposit")) {
+		}
+		//CHECK HERE FOR POTENTIAL ERRORS!!!
+		else if(transaction.getAccountType().equals("Certificate of Deposit")) {
 			
 			//Account to be saved
 			CertificateOfDeposit cd = new CertificateOfDeposit();

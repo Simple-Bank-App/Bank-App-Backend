@@ -32,6 +32,9 @@ public class User {
 	private String username;
 	private String password;
 	
+	@Column(name="phone_number")
+	private String phoneNumber;
+	
 	@Column(name="social_security")
 	private String socialSecurity;
 
