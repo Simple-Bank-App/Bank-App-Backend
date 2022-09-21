@@ -30,26 +30,32 @@ public class Info {
 		ArrayList<Object> accounts = new ArrayList<Object>();
 		
 		try {
-			Optional<CheckingAccount> checkingAccount = infoService.getCheckingAccounts(id);		
+			Optional<CheckingAccount> checkingAccount = infoService.getCheckingAccounts(id);
+			
+			accounts.add(checkingAccount.get());
+
 			Optional<SavingsAccount> savingAccount = infoService.getSavingsAccounts(id);
+			
+			accounts.add(savingAccount.get());
+
 			Optional<CertificateOfDeposit> cdAccount = infoService.getCDAccounts(id);
-			
-			if(checkingAccount.get() != null) {
-				accounts.add(checkingAccount.get());
-			}
-			
-			if(savingAccount.get() != null) {
-				accounts.add(savingAccount.get());
-			}
-			
-			if(cdAccount.get() != null) {
-				accounts.add(cdAccount.get());	
-			}
+									
+			accounts.add(cdAccount.get());	
 			
 		}catch(Exception e) {
 			System.out.println(e);
 		}
 		
+		try {
+
+			Optional<CertificateOfDeposit> cdAccount = infoService.getCDAccounts(id);
+									
+			accounts.add(cdAccount.get());	
+			
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+				
 		return accounts;
 
 	}

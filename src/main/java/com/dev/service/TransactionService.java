@@ -33,11 +33,11 @@ public class TransactionService {
 	CertificateOfDepositRepository certificateOfDepRepo;
 
 	public void initialDeposit(Transaction transaction) {
-		
+				
 		//Get the first and last name based on the userId.
 		Optional<User> user = basicInfoRepo.findById(transaction.getUserId());	
 		
-		System.out.print(transaction);
+		System.out.println(transaction);
 		
 		if(transaction.getAccountType().equals("Checking")) {
 			
@@ -103,12 +103,17 @@ public class TransactionService {
 			//Account to be compared against the database.
 			CertificateOfDeposit existingCD = new CertificateOfDeposit();
 			
+			long randomInt  = 0;
+						
 			do {
 				
-				long randomInt = generateRandomNumber();
+				//Generate a random number.
+				randomInt = generateRandomNumber();
 								
+				//Check if this random number exists in the database.
 				existingCD = certificateOfDepRepo.findByAccountNumber(Long.toString(randomInt));
 				
+				//If it does't exist in the database, then set it.
 				if(existingCD == null) {
 					cd.setAccountNumber(Long.toString(randomInt));
 				}
@@ -120,9 +125,9 @@ public class TransactionService {
 			cd.setLastName(user.get().getLastName());
 			cd.setInitialDeposit(Double.parseDouble(transaction.getAmount()));
 			cd.setCurrentBalance(Double.parseDouble(transaction.getAmount()));			
-			cd.setInterest(Double.parseDouble(transaction.getAmount()));
-			cd.setTimeFrame(Integer.parseInt(transaction.getAmount()));
-			
+			cd.setInterest(Double.parseDouble(transaction.getInterest()));
+			cd.setTimeFrame(Integer.parseInt(transaction.getTimeFrame()));
+						
 			certificateOfDepRepo.save(cd);
 			
 		}

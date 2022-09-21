@@ -47,8 +47,8 @@ public class CertificateOfDeposit {
 	
 	double interest;
 	
-	@Column(name="current_balance")
-	double currentBalance;
+	@Column(name="funds_available")
+	double fundsAvailable;
 	
 	@Column(name="account_number")
 	String accountNumber;

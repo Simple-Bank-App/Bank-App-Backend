@@ -53,7 +53,7 @@ public class InfoService {
 		Optional<CertificateOfDeposit> cd = null;
 				
 		cd = certificateOfDepRepo.findByUserId(id);
-		
+				
 		return cd;
 	}
 
